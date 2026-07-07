@@ -2103,6 +2103,7 @@
         function changeSystemLanguage(langCode) {
             currentSystemLanguage = langCode;
             applyLocalization();
+            updateDynamicGreeting();
             loadLesson(activeLessonKey); 
             loadDayLesson(currentActiveDay);
             showToast(langCode === 'vi' ? "Đã chuyển đổi sang Tiếng Việt!" : "Switched to English successfully!", "success");
