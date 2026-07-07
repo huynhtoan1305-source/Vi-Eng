@@ -2234,9 +2234,10 @@
         }
 
         function extractQuotedSpeech(rawText) {
-            const withoutSpeaker = rawText.replace(/^[^":]{1,40}:\s*/, ''); // bỏ "Tên: " ở đầu nếu có
-            const fullyQuoted = withoutSpeaker.match(/^"([^"]+)"$/);
-            return fullyQuoted ? fullyQuoted[1] : withoutSpeaker;
+            // Chỉ lấy phần nằm trong dấu " " hoặc ' ', bỏ qua câu dẫn (vd: "Rachel: ...", "Câu hỏi: ...")
+            const matches = rawText.match(/"([^"]+)"|'([^']+)'/g);
+            if (!matches || matches.length === 0) return rawText;
+            return matches.map(m => m.slice(1, -1)).join('. ');
         }
 
         function speakSentence(text) {
