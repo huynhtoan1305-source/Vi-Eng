@@ -2212,9 +2212,12 @@
                 const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=vi&dt=t&q=${encodeURIComponent(text)}`);
                 if (response.ok) {
                     const data = await response.json();
-                    if (data && data[0] && data[0][0] && data[0][0][0]) {
-                        vieTextEl.textContent = data[0][0][0];
-                        return;
+                    if (data && data[0]) {
+                        const combined = data[0].map(seg => seg && seg[0] ? seg[0] : '').join('');
+                        if (combined.trim()) {
+                            vieTextEl.textContent = combined.trim();
+                            return;
+                        }
                     }
                 }
             } catch (err) {
