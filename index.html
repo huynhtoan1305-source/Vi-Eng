@@ -3534,13 +3534,15 @@
             const container = document.getElementById('lesson-container');
             container.innerHTML = lessonHTML;
 
-            const screen = document.getElementById('ai-tutor-screen');
-            screen.innerHTML = `
-                <div class="p-3 bg-violet-50/50 dark:bg-violet-950/10 border border-violet-100 dark:border-violet-900 rounded-lg space-y-1 animate-fade-in">
-                    <p class="font-bold text-violet-700 dark:text-violet-300 text-[10px] uppercase"><i class="fa-solid fa-robot"></i> AI Tutor Sẵn Sàng</p>
-                    <p class="text-[11px] text-[var(--text-muted)]">Hãy chọn tính năng "Luyện thi Quiz Thuế" hoặc "Soạn Email" để học sâu hơn về thì <strong class="text-[var(--accent-color)]">${lesson.title}</strong> nhé!</p>
-                </div>
-            `;
+            const screens = document.querySelectorAll('.ai-tutor-screen');
+            screens.forEach(screen => {
+                screen.innerHTML = `
+                    <div class="p-3 bg-violet-50/50 dark:bg-violet-950/10 border border-violet-100 dark:border-violet-900 rounded-lg space-y-1 animate-fade-in">
+                        <p class="font-bold text-violet-700 dark:text-violet-300 text-[10px] uppercase"><i class="fa-solid fa-robot"></i> AI Tutor Sẵn Sàng</p>
+                        <p class="text-[11px] text-[var(--text-muted)]">Hãy chọn tính năng "Luyện thi Quiz Thuế" hoặc "Soạn Email" để học sâu hơn về thì <strong class="text-[var(--accent-color)]">${lesson.title}</strong> nhé!</p>
+                    </div>
+                `;
+            });
             container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
