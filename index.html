@@ -255,7 +255,7 @@
                     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-[var(--accent-color)] border border-blue-200 mb-2" data-i18n="hero_badge">
                         <i class="fa-solid fa-bolt"></i> Tính năng bôi đen & nhấp đúp để giải mã vạn năng đã kích hoạt!
                     </span>
-                    <h2 class="text-xl md:text-3xl font-extrabold tracking-tight" id="dynamic-greeting">🗺️ Chào mừng!</h2>
+                    <h2 class="text-xl md:text-3xl font-extrabold tracking-tight" id="dynamic-greeting">🗺️ Chào mừng My Darling You - Đang nhắm tới Mục tiêu 12 tháng làm việc tại Úc</h2>
                     <p class="text-xs md:text-sm text-[var(--text-muted)] mt-1.5 max-w-3xl leading-relaxed" data-i18n="hero_desc">
                         Hệ thống đào tạo toàn diện: So sánh trực quan Thể Chủ động/Bị động, xử lý 4 chuyên đề hội thoại thực tế tại Melbourne/Sydney, và tự động thiết lập lộ trình học cá nhân hóa 30 ngày.
                     </p>
@@ -2048,11 +2048,11 @@
             showToast("Đã lưu và áp dụng hồ sơ cá nhân hóa thành công!", "success");
         }
 
-        function changeSystemLanguage() {
+        function updateDynamicGreeting() {
             const heading = document.getElementById('dynamic-greeting');
             const label = document.getElementById('schedule-student-label');
             if (heading) {
-                heading.textContent = `🗺️ Chào mừng ${studentProfile.name}!`;
+                heading.textContent = `🗺️ Chào mừng ${studentProfile.name} - Đang nhắm tới Mục tiêu 12 tháng làm việc tại Úc`;
             }
             if (label) {
                 label.textContent = studentProfile.name;
@@ -2103,7 +2103,6 @@
         function changeSystemLanguage(langCode) {
             currentSystemLanguage = langCode;
             applyLocalization();
-            updateDynamicGreeting();
             loadLesson(activeLessonKey); 
             loadDayLesson(currentActiveDay);
             showToast(langCode === 'vi' ? "Đã chuyển đổi sang Tiếng Việt!" : "Switched to English successfully!", "success");
@@ -2213,12 +2212,9 @@
                 const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=vi&dt=t&q=${encodeURIComponent(text)}`);
                 if (response.ok) {
                     const data = await response.json();
-                    if (data && data[0]) {
-                        const combined = data[0].map(seg => seg && seg[0] ? seg[0] : '').join('');
-                        if (combined.trim()) {
-                            vieTextEl.textContent = combined.trim();
-                            return;
-                        }
+                    if (data && data[0] && data[0][0] && data[0][0][0]) {
+                        vieTextEl.textContent = data[0][0][0];
+                        return;
                     }
                 }
             } catch (err) {
@@ -3534,15 +3530,13 @@
             const container = document.getElementById('lesson-container');
             container.innerHTML = lessonHTML;
 
-            const screens = document.querySelectorAll('.ai-tutor-screen');
-            screens.forEach(screen => {
-                screen.innerHTML = `
-                    <div class="p-3 bg-violet-50/50 dark:bg-violet-950/10 border border-violet-100 dark:border-violet-900 rounded-lg space-y-1 animate-fade-in">
-                        <p class="font-bold text-violet-700 dark:text-violet-300 text-[10px] uppercase"><i class="fa-solid fa-robot"></i> AI Tutor Sẵn Sàng</p>
-                        <p class="text-[11px] text-[var(--text-muted)]">Hãy chọn tính năng "Luyện thi Quiz Thuế" hoặc "Soạn Email" để học sâu hơn về thì <strong class="text-[var(--accent-color)]">${lesson.title}</strong> nhé!</p>
-                    </div>
-                `;
-            });
+            const screen = document.getElementById('ai-tutor-screen');
+            screen.innerHTML = `
+                <div class="p-3 bg-violet-50/50 dark:bg-violet-950/10 border border-violet-100 dark:border-violet-900 rounded-lg space-y-1 animate-fade-in">
+                    <p class="font-bold text-violet-700 dark:text-violet-300 text-[10px] uppercase"><i class="fa-solid fa-robot"></i> AI Tutor Sẵn Sàng</p>
+                    <p class="text-[11px] text-[var(--text-muted)]">Hãy chọn tính năng "Luyện thi Quiz Thuế" hoặc "Soạn Email" để học sâu hơn về thì <strong class="text-[var(--accent-color)]">${lesson.title}</strong> nhé!</p>
+                </div>
+            `;
             container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
